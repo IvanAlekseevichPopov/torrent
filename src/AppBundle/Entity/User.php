@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace AppBundle\Entity\Users;
+namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields="userEmail", message="Пользователь с указанным email уже сущствует")
  *
  */
-class User implements AdvancedUserInterface, \Serializable
+class User implements AdvancedUserInterface
 {
 
     use DoctrineHelpersTrait\LifecycleCallbacks\CreatedAtLifecycleTrait;
@@ -231,37 +231,37 @@ class User implements AdvancedUserInterface, \Serializable
      */
     protected $lastLoginAt;
 
-//    /**
-//     * Роли
-//     *
-//     * @JmsAnnotation\Exclude()
-//     *
-//     * @ORM\ManyToMany(
-//     *     targetEntity="UserRole",
-//     *     cascade={
-//     *         "remove"
-//     *     }
-//     * )
-//     * @ORM\JoinTable(name="users_roles_relation",
-//     *      joinColumns={
-//     *          @ORM\JoinColumn(
-//     *              name="user_id",
-//     *              referencedColumnName="id",
-//     *              onDelete="CASCADE"
-//     *          )
-//     *      },
-//     *      inverseJoinColumns={
-//     *          @ORM\JoinColumn(
-//     *              name="role_id",
-//     *              referencedColumnName="id",
-//     *              onDelete="CASCADE"
-//     *          )
-//     *      }
-//     * )
-//     *
-//     * @var ArrayCollection
-//     */
-//    protected $roles;
+    /**
+     * Роли
+     *
+     * @JmsAnnotation\Exclude()
+     *
+     * @ORM\ManyToMany(
+     *     targetEntity="UserRole",
+     *     cascade={
+     *         "remove"
+     *     }
+     * )
+     * @ORM\JoinTable(name="users_roles_relation",
+     *      joinColumns={
+     *          @ORM\JoinColumn(
+     *              name="user_id",
+     *              referencedColumnName="id",
+     *              onDelete="CASCADE"
+     *          )
+     *      },
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(
+     *              name="role_id",
+     *              referencedColumnName="id",
+     *              onDelete="CASCADE"
+     *          )
+     *      }
+     * )
+     *
+     * @var ArrayCollection
+     */
+    protected $roles;
 
     /**
      * Открытый пароль
@@ -279,25 +279,24 @@ class User implements AdvancedUserInterface, \Serializable
     {
         $this->salt = $this->generateRandomSalt();
         $this->roles = new ArrayCollection;
-        $this->balanceHistory = new ArrayCollection;
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    public function serialize()
-    {
-        return serialize(
-            [
-                $this->password,
-                $this->salt,
-                $this->userName,
-                $this->id,
-            ]
-        );
-    }
+//    /**
+//     * @inheritdoc
+//     *
+//     * @return string
+//     */
+//    public function serialize()
+//    {
+//        return serialize(
+//            [
+//                $this->password,
+//                $this->salt,
+//                $this->userName,
+//                $this->id,
+//            ]
+//        );
+//    }
 
     /** @return string */
     public function __toString()
@@ -398,15 +397,15 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
 
-    /**
-     * Геттер дополнительной информации о пользователе
-     *
-     * @return UserAdditionalInfo
-     */
-    public function getAdditionalInfo(): UserAdditionalInfo
-    {
-        return $this->additionalInfo;
-    }
+//    /**
+//     * Геттер дополнительной информации о пользователе
+//     *
+//     * @return UserAdditionalInfo
+//     */
+//    public function getAdditionalInfo(): UserAdditionalInfo
+//    {
+//        return $this->additionalInfo;
+//    }
 
     /**
      * Геттер списка ролей

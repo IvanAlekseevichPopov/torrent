@@ -56,7 +56,14 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
-
+        types:
+            UserStatusEnumType: AppBundle\DBAL\Types\Enum\Users\UserStatusEnumType
+            UserBalanceOperationsEnumType: AppBundle\DBAL\Types\Enum\Users\UserBalanceOperationsEnumType
+            IpType: AppBundle\DBAL\Types\IpType
+            UserAdditionalChildStatusEnumType: AppBundle\DBAL\Types\Enum\Users\UserAdditionalChildStatusEnumType
+            UserAdditionalGenderEnumType: AppBundle\DBAL\Types\Enum\Users\UserAdditionalGenderEnumType
+            UserAdditionalBusyStatusEnumType: AppBundle\DBAL\Types\Enum\Users\UserAdditionalBusyStatusEnumType
+            UserAdditionalMaritalStatusEnumType: AppBundle\DBAL\Types\Enum\Users\UserAdditionalMaritalStatusEnumType
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
