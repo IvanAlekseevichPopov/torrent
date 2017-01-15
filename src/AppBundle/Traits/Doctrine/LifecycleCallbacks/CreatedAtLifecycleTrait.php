@@ -3,7 +3,7 @@
 /**
  * Ценоанализатор
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 
@@ -14,7 +14,7 @@ namespace AppBundle\Traits\Doctrine\LifecycleCallbacks;
 /**
  *
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 trait CreatedAtLifecycleTrait

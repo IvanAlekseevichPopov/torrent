@@ -4,6 +4,9 @@ declare(strict_types = 1);
 
 namespace AppBundle\Entity;
 
+use AppBundle\DBAL\Types\Enum\Users\UserStatusEnumType;
+use AppBundle\Traits\Doctrine\LifecycleCallbacks\CreatedAtLifecycleTrait;
+use AppBundle\Traits\Doctrine\LifecycleCallbacks\UpdatedAtLifecycleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JmsAnnotation;
@@ -30,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          )
  *     }
  * )
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Users\UserRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields="userEmail", message="Пользователь с указанным email уже сущствует")
  *
@@ -38,8 +41,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements AdvancedUserInterface
 {
 
-    use DoctrineHelpersTrait\LifecycleCallbacks\CreatedAtLifecycleTrait;
-    use DoctrineHelpersTrait\LifecycleCallbacks\UpdatedAtLifecycleTrait;
+    use CreatedAtLifecycleTrait;
+    use UpdatedAtLifecycleTrait;
 
     const RESET_PASSWORD_LIFETIME_MODIFIER = '+24 hours';
 
@@ -53,27 +56,30 @@ class User implements AdvancedUserInterface
      *          "comment" = "Id пользователя"
      *     }
      * )
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
+     * @var int
+     *
      */
     protected $id;
 
-//    /**
-//     * Статус пользователя
-//     *
-//     * @JMSAnnotation\Type("integer")
-//     * @JMSAnnotation\Since("1.0")
-//     *
-//     * @ORM\Column(
-//     *     name="status_id",
-//     *     type="UserStatusEnumType",
-//     *     options={
-//     *          "comment" = "Статус пользователя"
-//     *     }
-//     * )
-//     *
-//     * @var integer
-//     */
-//    protected $statusId = UserStatusEnumType::STATUS_NOT_CONFIRMED;
+    /**
+     * Статус пользователя
+     *
+     * @JMSAnnotation\Type("integer")
+     * @JMSAnnotation\Since("1.0")
+     *
+     * @ORM\Column(
+     *     name="status_id",
+     *     type="UserStatusEnumType",
+     *     options={
+     *          "comment" = "Статус пользователя"
+     *     }
+     * )
+     *
+     * @var integer
+     */
+    protected $statusId = UserStatusEnumType::STATUS_NOT_CONFIRMED;
 
     /**
      * Имя пользователя
@@ -263,40 +269,40 @@ class User implements AdvancedUserInterface
      */
     protected $roles;
 
+//    /**
+//     * Открытый пароль
+//     *
+//     * @JmsAnnotation\Exclude()
+//     *
+//     * @Assert\NotBlank()
+//     * @Assert\Length(max = 4096)
+//     *
+//     * @var string
+//     */
+//    protected $plainPassword;
+
     /**
-     * Открытый пароль
-     *
+     * Созданные пользователем торренты
      * @JmsAnnotation\Exclude()
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max = 4096)
+     * @ORM\OneToMany(
+     *     targetEntity = "AppBundle\Entity\Torrent",
+     *     mappedBy     = "createdByUser",
+     *     cascade      = {
+     *         "persist",
+     *         "remove"
+     *     }
+     * )
      *
-     * @var string
+     * @var ArrayCollection
      */
-    protected $plainPassword;
+    protected $createdTorrents;
 
     public function __construct()
     {
         $this->salt = $this->generateRandomSalt();
         $this->roles = new ArrayCollection;
     }
-
-//    /**
-//     * @inheritdoc
-//     *
-//     * @return string
-//     */
-//    public function serialize()
-//    {
-//        return serialize(
-//            [
-//                $this->password,
-//                $this->salt,
-//                $this->userName,
-//                $this->id,
-//            ]
-//        );
-//    }
 
     /** @return string */
     public function __toString()
@@ -775,5 +781,37 @@ class User implements AdvancedUserInterface
     public function simpleRoles(): string
     {
         return implode(', ', $this->getRolesThree());
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getCreatedTorrents(): ArrayCollection
+    {
+        return $this->createdTorrents;
+    }
+
+    /**
+     * @param ArrayCollection $createdTorrents
+     */
+    public function setCreatedTorrents(ArrayCollection $createdTorrents)
+    {
+        $this->createdTorrents = $createdTorrents;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 }
