@@ -60,15 +60,15 @@ class Category
      */
     protected $categoryName;
 
-    /**
-     * Многие каталоги к многим продуктам
-     *
-     * @ORM\ManyToMany(
-     *     targetEntity = "AppBundle\Entity\User",
-     *     mappedBy     = "catalogs"
-     * )
-     */
-    protected $products;
+//    /**
+//     * Многие каталоги к многим продуктам
+//     *
+//     * @ORM\ManyToMany(
+//     *     targetEntity = "AppBundle\Entity\User",
+//     *     mappedBy     = "catalogs"
+//     * )
+//     */
+//    protected $products;
 
 
     /**

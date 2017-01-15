@@ -397,16 +397,6 @@ class User implements AdvancedUserInterface
         return $this;
     }
 
-//    /**
-//     * Геттер дополнительной информации о пользователе
-//     *
-//     * @return UserAdditionalInfo
-//     */
-//    public function getAdditionalInfo(): UserAdditionalInfo
-//    {
-//        return $this->additionalInfo;
-//    }
-
     /**
      * Геттер списка ролей
      *
