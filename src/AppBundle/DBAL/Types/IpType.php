@@ -3,7 +3,7 @@
 /**
  * Ценоанализатор
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 
@@ -17,7 +17,7 @@ use Doctrine\DBAL\Types\Type;
 /**
  * Тип хранения IP
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 class IpType extends Type

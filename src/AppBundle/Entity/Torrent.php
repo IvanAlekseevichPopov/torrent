@@ -50,9 +50,19 @@ class Torrent
     private $hash;
 
     /**
-     * @var string
+     * Пользователь
      *
-     * @ORM\Column(name="user", type="string", length=255)
+     * @ORM\ManyToOne(
+     *     targetEntity="AppBundle\Entity\User",
+     *     fetch="EXTRA_LAZY",
+     *     inversedBy="createdTorrents"
+     * )
+     * @Doctrine\ORM\Mapping\JoinColumn(
+     *     name="user_id",
+     *     referencedColumnName="id"
+     * )
+     *
+     * @var User
      */
     private $user;
 
@@ -166,25 +176,31 @@ class Torrent
     /**
      * Set user
      *
-     * @param string $user
+     * @param string $createdByUser
      *
      * @return Torrent
      */
-    public function setUser($user)
+    public function setCreatedByUser($createdByUser)
     {
-        $this->user = $user;
+        $this->createdByUser = $createdByUser;
 
         return $this;
     }
 
     /**
-     * Get user
-     *
-     * @return string
+     * @return null|User
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
     }
 }
 

@@ -3,7 +3,7 @@
 /**
  * Ценоанализатор
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 
@@ -33,9 +33,9 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  *     }
  * )
  *
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Users\UserRoleRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRoleRepository")
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 class UserRole implements RoleInterface

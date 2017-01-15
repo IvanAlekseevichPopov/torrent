@@ -3,7 +3,7 @@
 /**
  * Ценоанализатор
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 
@@ -28,7 +28,7 @@ use JMS\Serializer\Annotation as JmsAnnotation;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  *
- * @author Масюкевич Максим (Desperado)
+ * @author Попов Иван
  * @link   http://ценоанализатор.рф
  */
 class UserLoginHistory
