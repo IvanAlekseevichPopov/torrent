@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Ценоанализатор
- *
- * @author Попов Иван
- * @link   http://ценоанализатор.рф
- */
-
 declare(strict_types = 1);
 
 namespace AppBundle\Entity;
@@ -36,7 +29,6 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRoleRepository")
  *
  * @author Попов Иван
- * @link   http://ценоанализатор.рф
  */
 class UserRole implements RoleInterface
 {
@@ -55,6 +47,7 @@ class UserRole implements RoleInterface
      *          "comment" = "Id роли"
      *     }
      * )
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Id
      */
     protected $id;

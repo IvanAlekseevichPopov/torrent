@@ -26,7 +26,9 @@
         "jms/serializer-bundle": "^1.1",
         "doctrine/doctrine-migrations-bundle": "^1.2",
         "fresh/doctrine-enum-bundle": "^4.8",
-        "friendsofsymfony/user-bundle": "dev-master"
+        "friendsofsymfony/user-bundle": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": "^2.3",
+        "friendsofsymfony/elastica-bundle": "^3.2"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
