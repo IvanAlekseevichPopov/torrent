@@ -269,17 +269,17 @@ class User implements AdvancedUserInterface
      */
     protected $roles;
 
-//    /**
-//     * Открытый пароль
-//     *
-//     * @JmsAnnotation\Exclude()
-//     *
-//     * @Assert\NotBlank()
-//     * @Assert\Length(max = 4096)
-//     *
-//     * @var string
-//     */
-//    protected $plainPassword;
+    /**
+     * Открытый пароль
+     *
+     * @JmsAnnotation\Exclude()
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max = 4096)
+     *
+     * @var string
+     */
+    protected $plainPassword;
 
     /**
      * Созданные пользователем торренты
@@ -420,13 +420,14 @@ class User implements AdvancedUserInterface
         return $rolesThree;
     }
 
+
     /**
-     *
+     * Извлекает роли
      *
      * @param UserRole $role
-     * @param array    $roles
+     * @param array $roles
      *
-     * @return null
+     * @return $this
      */
     protected function extractRoles(UserRole $role, array &$roles)
     {
@@ -436,6 +437,8 @@ class User implements AdvancedUserInterface
         {
             return $this->extractRoles($role->getParent(), $roles);
         }
+
+        return $this;
     }
 
     /**
@@ -597,16 +600,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Геттер истории изменения баланса
-     *
-     * @return ArrayCollection
-     */
-    public function getBalanceHistory()
-    {
-        return $this->balanceHistory;
-    }
-
-    /**
      * Геттер Хэша для смены пароля
      *
      * @return string
@@ -663,7 +656,10 @@ class User implements AdvancedUserInterface
      */
     public function getSalt()
     {
-        return $this->salt;
+        // The bcrypt algorithm doesn't require a separate salt.
+        // You *may* need a real salt if you choose a different encoder.
+//        return $this->salt;
+        return null;
     }
 
     /**
