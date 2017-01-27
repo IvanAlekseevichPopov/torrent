@@ -7,6 +7,9 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    security_confirmation_subject: "Подтверждение регистрации"
+    security_confirmation_from_email: "no-reply@torrents.ru"
+    security_confirmation_from_name: "Торренты"
 
 framework:
     #esi:             ~

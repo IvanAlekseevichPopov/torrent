@@ -11,8 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JmsAnnotation;
 use AppBundle\Traits\Doctrine as DoctrineHelpersTrait;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,17 +28,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         @ORM\UniqueConstraint(
  *             name="users_customer_email",
  *                 columns={
- *                     "user_email"
+ *                     "email"
  *                 }
  *          )
  *     }
  * )
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(fields="userEmail", message="Пользователь с указанным email уже сущствует")
+ * @UniqueEntity(fields="email", message="Пользователь с указанным email уже сущствует")
  *
  */
-class User implements AdvancedUserInterface
+class User implements UserInterface
 {
 
     use CreatedAtLifecycleTrait;
@@ -108,18 +108,21 @@ class User implements AdvancedUserInterface
      * @JmsAnnotation\Since("1.0")
      *
      * @ORM\Column(
-     *     name="user_email",
+     *     name="email",
      *     type="string",
      *     nullable=false,
      *     length=191,
+     *     unique=true,
      *     options={
      *         "comment" = "Email"
      *     }
      * )
+     * @Assert\NotBlank()
+     * @Assert\Email()
      *
      * @var string
      */
-    protected $userEmail;
+    protected $email;
 
     /**
      * Соль
@@ -149,7 +152,7 @@ class User implements AdvancedUserInterface
      *     name="password",
      *     type="string",
      *     nullable=false,
-     *     length=255,
+     *     length=64,
      *     options={
      *         "comment" = "Пароль"
      *     }
@@ -455,19 +458,6 @@ class User implements AdvancedUserInterface
         return $this;
     }
 
-    /**
-     * Сеттер почты
-     *
-     * @param string $userEmail
-     *
-     * @return $this
-     */
-    public function setUserEmail($userEmail)
-    {
-        $this->userEmail = $userEmail;
-
-        return $this;
-    }
 
     /**
      * Сеттер соли
@@ -683,16 +673,6 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Геттер email
-     *
-     * @return string
-     */
-    public function getUserEmail()
-    {
-        return $this->userEmail;
-    }
-
-    /**
      * Геттер токена подтверждения
      *
      * @return string
@@ -809,5 +789,21 @@ class User implements AdvancedUserInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
     }
 }
