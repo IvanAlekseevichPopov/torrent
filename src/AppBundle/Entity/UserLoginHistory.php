@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Ценоанализатор
+ *
+ * @author Попов Иван
+ * @link   http://ценоанализатор.рф
+ */
+
 declare(strict_types = 1);
 
 namespace AppBundle\Entity;
@@ -22,6 +29,7 @@ use JMS\Serializer\Annotation as JmsAnnotation;
  * @ORM\HasLifecycleCallbacks()
  *
  * @author Попов Иван
+ * @link   http://ценоанализатор.рф
  */
 class UserLoginHistory
 {

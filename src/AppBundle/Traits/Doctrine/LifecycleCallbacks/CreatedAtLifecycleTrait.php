@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Ценоанализатор
+ *
+ * @author Попов Иван
+ * @link   http://ценоанализатор.рф
+ */
+
 declare(strict_types = 1);
 
 namespace AppBundle\Traits\Doctrine\LifecycleCallbacks;
@@ -8,6 +15,7 @@ namespace AppBundle\Traits\Doctrine\LifecycleCallbacks;
  *
  *
  * @author Попов Иван
+ * @link   http://ценоанализатор.рф
  */
 trait CreatedAtLifecycleTrait
 {

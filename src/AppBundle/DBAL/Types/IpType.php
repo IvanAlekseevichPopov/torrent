@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Ценоанализатор
+ *
+ * @author Попов Иван
+ * @link   http://ценоанализатор.рф
+ */
+
 declare(strict_types = 1);
 
 namespace AppBundle\DBAL\Types;
@@ -11,6 +18,7 @@ use Doctrine\DBAL\Types\Type;
  * Тип хранения IP
  *
  * @author Попов Иван
+ * @link   http://ценоанализатор.рф
  */
 class IpType extends Type
 {
