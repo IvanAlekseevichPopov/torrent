@@ -13,7 +13,7 @@ use Doctrine\Common\Persistence\ObjectManager;
  * Фикстуры ролей
  * @author Попов Иван
  */
-class UserRolesDataFixtures extends AbstractFixture implements OrderedFixtureInterface
+class UserRolesDataFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * @inheritdoc

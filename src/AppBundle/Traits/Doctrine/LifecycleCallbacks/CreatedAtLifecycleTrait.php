@@ -4,11 +4,6 @@ declare(strict_types = 1);
 
 namespace AppBundle\Traits\Doctrine\LifecycleCallbacks;
 
-/**
- *
- *
- * @author Попов Иван
- */
 trait CreatedAtLifecycleTrait
 {
     /**

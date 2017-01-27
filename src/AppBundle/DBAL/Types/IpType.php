@@ -7,11 +7,6 @@ namespace AppBundle\DBAL\Types;
 use Doctrine\DBAL\Platforms as DoctrineDBALPlatforms;
 use Doctrine\DBAL\Types\Type;
 
-/**
- * Тип хранения IP
- *
- * @author Попов Иван
- */
 class IpType extends Type
 {
     /**

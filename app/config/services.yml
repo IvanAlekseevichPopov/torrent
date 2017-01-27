@@ -4,34 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-    # Враппер над SwiftMailer
-    app.model.email_notifications.email_notifications_wrapper:
-        class: AppBundle\Model\EmailNotifications\EmailNotificationsWrapper
-        arguments: ["@mailer", "@validator", "%security_confirmation_from_email%", "%security_confirmation_from_name%", "utf-8", "@logger"]
-
-    # Хэндлер отправки сообщений о подтверждении регистрации
-    app.model.users.registration.registration_confirmation_handler:
-        class: AppBundle\Model\Users\Registration\RegistrationConfirmationHandler
-        arguments: ["@app.manager.users.user_manager", "@app.model.email_notifications.email_notifications_wrapper", "@router", "@templating", "%security_confirmation_subject%"]
-
-    # Хэндлер выполнения регистрации пользователя
-    app.model.users.registration.registration_handler:
-        class: AppBundle\Model\Users\Registration\RegistrationHandler
-        arguments: ["@app.manager.users.user_manager", "@app.model.users.registration.registration_confirmation_handler"]
-
-    # Базовый класс восстановления пароля
-    app.model.users.password_restore.restore_password_handler:
-        class: AppBundle\Model\Users\PasswordRestore\RestorePasswordHandler
-        arguments: ["@app.manager.users.user_manager", "@app.model.email_notifications.email_notifications_wrapper", "@router", "@templating", "@logger"]
-
-    # Базовый класс менеджеров
-    app.manager.manager_abstract:
-        class: AppBundle\Manager\AppManagerAbstract
-        abstract:  true
-        public: false
-        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
-
-    # Менеджер пользователей
-    app.manager.users.user_manager:
-        class: AppBundle\Manager\Users\UserManager
-        arguments: ["@security.encoder_factory", "@doctrine.orm.entity_manager", "@service_container"]
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
