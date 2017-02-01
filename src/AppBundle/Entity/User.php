@@ -287,7 +287,7 @@ class User implements AdvancedUserInterface
      *
      * @ORM\OneToMany(
      *     targetEntity = "AppBundle\Entity\Torrent",
-     *     mappedBy     = "createdByUser",
+     *     mappedBy     = "user",
      *     cascade      = {
      *         "persist",
      *         "remove"
