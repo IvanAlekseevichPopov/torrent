@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,24 +50,29 @@ class RegistrationController extends Controller
      * Подтверждение регстрации через email
      *
      * @Route("/register/confirm/{userId}/{token}", name="user_registration_confirmation")
-     * @param Request $request
+     * @Method("GET")
+     *
      * @param $userId
      * @param $token
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function registerConfirmationAction(Request $request, $userId, $token)
+    public function registerConfirmationAction($userId, $token)
     {
-//        TODO
-//        Сверяем пользователя и токен через try
-//        Совпало - обновляем пользователя
-//        Не совпало - отфутболиваем
+        $result = $this->get('app.user_helper')->checkRegisterConfirmation($userId, $token);
+
+        if ($result) {
+            //TODO multilang
+            $message = 'success register confirmation';
+        } else {
+            //TODO multilang
+            $message = 'Error confirmation. Maybe you are already confirm email?';
+        }
 
 //        TODO Если пользователь не подтвердил email за неделю - удаляем его из базы
-        dump($request);
-        dump($userId);
-        dump($token);
+
         return $this->render(
-            'registration/register_email_confirm.html.twig'
+            'registration/register_email_confirm.html.twig',
+            ['message' => $message]
         );
     }
 }
