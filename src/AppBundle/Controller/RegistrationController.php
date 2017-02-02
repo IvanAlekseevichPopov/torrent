@@ -27,7 +27,6 @@ class RegistrationController extends Controller
             $password = $this->get('security.password_encoder')
                 ->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setConfirmationToken($this->getUniqueToken());
 
 // 4) save the User!
             $em = $this->getDoctrine()->getManager();
@@ -35,10 +34,7 @@ class RegistrationController extends Controller
             $em->flush();
 
 // 5) send confirm url to email
-            $this->sendRegisterConfirm($user);
-
-// ... do any other work - like sending them an email, etc
-// maybe set a "flash" success message for the user
+            $this->get('app.user_helper')->handleConfirmRegistration($user);
 
             return $this->redirectToRoute('user_registration');
         }
@@ -73,45 +69,4 @@ class RegistrationController extends Controller
             'registration/register_email_confirm.html.twig'
         );
     }
-
-    protected function sendRegisterConfirm(User $user)
-    {
-        //        TODO move from controller
-        $email = $user->getUserEmail();
-        dump($email);
-
-        $url =
-            $this->get('request_stack')->getCurrentRequest()->getSchemeAndHttpHost()."/".
-            $this->get('router')->generate('user_registration_confirmation')."/".
-            $user->getId()."/".
-            $user->getConfirmationToken();
-        dump($url);
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Email confirmation')
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'email/register_confirm.html.twig',
-                    [
-                        'confirmationUrl' => $url
-                    ]
-                )
-            );
-
-        $this->get('mailer')->send($message);
-    }
-
-    /**
-     * Генератор уникального токена
-     *
-     * @param int $count
-     * @return string
-     */
-    protected function getUniqueToken(int $count = 16): string
-    {
-//        TODO move from controller
-        return bin2hex(openssl_random_pseudo_bytes($count));
-    }
-
 }

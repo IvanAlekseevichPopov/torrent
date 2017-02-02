@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="torrent" basedir="." default="assets:install --relative">
+    <property name="dir.app" value="${project.basedir}/app"/>
+    <property name="dir.var" value="${project.basedir}/var"/>
+
+    <target name="clear cache" description="Чистка кеша">
+        <echo msg="Убиваем кеш"/>
+        <exec command="bin/console cache:clear" logoutput="true"/>
+    </target>
+
+    <target name="recreate db" description="Пересоздать ДБ">
+        <exec command="bin/console doctrine:s:d --force" logoutput="true"/>
+        <exec command="bin/console doctrine:s:u --force" logoutput="true"/>
+        <exec command="bin/console doctrine:fixtures:load -n --fixtures=src/AppBundle/DataFixtures/ORM/" logoutput="true"/>
+    </target>
+
+    <target name="clean logs" description="Чистка логов">
+        <echo>Clear logs directory</echo>
+        <delete>
+            <fileset dir="${dir.var}/logs/">
+                <exclude name=".gitkeep"/>
+            </fileset>
+        </delete>
+    </target>
+</project>

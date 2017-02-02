@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.unique_token_generator:
+        class: AppBundle\Services\UniqueTokenGenerator
+        arguments: ["@service_container"]
+
+    app.user_helper:
+        class: AppBundle\Services\UserHelper
+        arguments: ["@service_container", "@doctrine.orm.entity_manager"]
