@@ -25,7 +25,8 @@
         "phpunit/phpunit": "^4.8",
         "jms/serializer-bundle": "^1.1",
         "doctrine/doctrine-migrations-bundle": "^1.2",
-        "fresh/doctrine-enum-bundle": "^4.8"
+        "fresh/doctrine-enum-bundle": "^4.8",
+        "phing/phing": "^2.16"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
