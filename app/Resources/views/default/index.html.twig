@@ -41,6 +41,17 @@
                     </a>
                 </p>
             </div>
+            <div>
+                <ul>
+                {% for name, route in routes %}
+                    {% if '_' != name|first %}
+                    <li>
+                        <a href="{{ route.path }}">{{ name }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
 
         </div>
     </div>
