@@ -2,44 +2,6 @@
 
 {% block body %}
     <h1>Torrents list</h1>
+    {{ dump(torrents) }}
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Meta</th>
-                <th>Title</th>
-                <th>Hash</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for torrent in torrents %}
-            <tr>
-                <td><a href="{{ path('torrent_show', { 'id': torrent.id }) }}">{{ torrent.id }}</a></td>
-                <td>{{ torrent.name }}</td>
-                <td>{{ torrent.meta }}</td>
-                <td>{{ torrent.title }}</td>
-                <td>{{ torrent.hash }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('torrent_show', { 'id': torrent.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('torrent_edit', { 'id': torrent.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('torrent_new') }}">Create a new torrent</a>
-        </li>
-    </ul>
 {% endblock %}

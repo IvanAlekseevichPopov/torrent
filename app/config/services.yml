@@ -11,3 +11,15 @@ services:
     app.user_helper:
         class: AppBundle\Services\UserHelper
         arguments: ["@service_container", "@doctrine.orm.entity_manager"]
+
+    # Базоывый класс менеджеров
+    app.manager.manager_abstract:
+        class: AppBundle\Manager\AppManagerAbstract
+        abstract:  true
+        public: false
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+
+    # Менеджер пользователей
+    app.manager.torrent_manager:
+        class: AppBundle\Manager\TorrentManager
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
