@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Torrent;
-use AppBundle\Manager\AppManagerAbstract;
+use AppBundle\Repository\TorrentRepository;
 use Monolog\Logger;
 
 class TorrentManager extends AppManagerAbstract
@@ -30,26 +30,33 @@ class TorrentManager extends AppManagerAbstract
     {
         //TODO поиск здесь или отдельно - обмозговать
         dump($filters);
-        return [];
+
+        //TODO получаем offset из фильтра limit - захардкодить в константу
+        $limit = 10;
+        $offset = 0;
+        return
+            $this->getRepository()->findBy(
+                [],
+                ['createdAt' => 'DESC'],
+                $limit,
+                $offset
+            );
     }
 
     /**
-     * @inheritdoc
-     *
+     * @return TorrentRepository
      */
-    public function getRepository()
+    public function getRepository(): TorrentRepository
     {
         return $this->getEntityManager()->getRepository(Torrent::class);
     }
 
-    /**
-     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException
-     * @throws \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     *
-     * @return Logger
-     */
-    private function getLogger()
-    {
-        return $this->container->get('logger');
-    }
+//    /**
+//     * Еще пригодится
+//     * @return Logger
+//     */
+//    private function getLogger()
+//    {
+//        return $this->get('logger');
+//    }
 }
