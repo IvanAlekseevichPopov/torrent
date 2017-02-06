@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Traits\Doctrine\CreatedAtColumn;
+use AppBundle\Traits\Doctrine\UpdatedAtColumn;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,9 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="torrent")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TorrentRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Torrent
 {
+    use CreatedAtColumn;
+    use UpdatedAtColumn;
+
     /**
      * @var int
      *

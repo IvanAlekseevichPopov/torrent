@@ -19,7 +19,7 @@ services:
         public: false
         arguments: ["@doctrine.orm.entity_manager", "@service_container"]
 
-    # Менеджер пользователей
+    # Менеджер торрентов
     app.manager.torrent_manager:
         class: AppBundle\Manager\TorrentManager
         arguments: ["@doctrine.orm.entity_manager", "@service_container"]

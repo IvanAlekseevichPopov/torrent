@@ -39,7 +39,7 @@ class DefaultController extends Controller
         $torrents = $this->get('app.manager.torrent_manager')->getTorrentsList($filters);
         dump($torrents);
 
-        return $this->render('torrent/index.html.twig', array(
+        return $this->render('torrent/list.twig', array(
             'torrents' => $torrents,
         ));
     }

@@ -18,7 +18,9 @@ class TorrentType extends AbstractType
             ->add('meta')
             ->add('title')
             ->add('hash')
-            ->add('user');
+//            ->add('createdAt')
+//            ->add('updatedAt')
+            ->add('user')        ;
     }
     
     /**
