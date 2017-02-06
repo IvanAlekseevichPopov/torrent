@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace AppBundle\Services;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\UserRole;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -68,6 +69,8 @@ class UserHelper
         }
 
         $user->markAsConfirmed();
+        $this->addRole($user, UserRole::ROLE_USER);
+
         $this->manager->persist($user);
         $this->manager->flush();
 
@@ -78,7 +81,6 @@ class UserHelper
      * Записываем в пользователя новый токен
      *
      * @param User $user
-     * @return bool
      */
     protected function setConfirmToken(User $user)
     {
@@ -109,5 +111,26 @@ class UserHelper
                 'userId' => $user->getId(),
                 'token' => $user->getConfirmationToken()
             ]);
+    }
+
+
+    /**
+     * Задаем пользователю роль по названию
+     *
+     * @param User $user
+     * @param string $roleName
+     */
+    public function addRole(User $user, string $roleName)
+    {
+        //TODO переместить метод в менеджер пользователей!!!!!!!!!!!!!!!!!!
+        //И упростить получение роли. Слишком длинная цепочка
+        $userRole = $this->manager->getRepository(UserRole::class)->findBy(['name' => $roleName]);
+        if(null === $userRole){
+            throw new \LogicException(
+                sprintf('Указана некорректная роль `%s`. См `users_roles`', $roleName)
+            );
+        }
+
+        $user->addRole($userRole);
     }
 }

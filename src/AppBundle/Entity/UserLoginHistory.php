@@ -25,8 +25,6 @@ use JMS\Serializer\Annotation as JmsAnnotation;
  */
 class UserLoginHistory
 {
-    use DoctrineHelpersTrait\LifecycleCallbacks\CreatedAtLifecycleTrait;
-
     /**
      * Порядковый номер
      *

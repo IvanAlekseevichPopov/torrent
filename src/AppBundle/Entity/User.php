@@ -5,8 +5,8 @@ declare(strict_types = 1);
 namespace AppBundle\Entity;
 
 use AppBundle\DBAL\Types\Enum\Users\UserStatusEnumType;
-use AppBundle\Traits\Doctrine\LifecycleCallbacks\CreatedAtLifecycleTrait;
-use AppBundle\Traits\Doctrine\LifecycleCallbacks\UpdatedAtLifecycleTrait;
+use AppBundle\Traits\Doctrine\CreatedAtColumn;
+use AppBundle\Traits\Doctrine\UpdatedAtColumn;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JmsAnnotation;
@@ -40,9 +40,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements AdvancedUserInterface
 {
-
-    use CreatedAtLifecycleTrait;
-    use UpdatedAtLifecycleTrait;
+    use CreatedAtColumn;
+    use UpdatedAtColumn;
 
     const RESET_PASSWORD_LIFETIME_MODIFIER = '+24 hours';
 
