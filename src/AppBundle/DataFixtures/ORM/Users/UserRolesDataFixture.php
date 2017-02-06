@@ -28,7 +28,7 @@ class UserRolesDataFixture extends AbstractFixture implements OrderedFixtureInte
 
         $manager->persist($userRole);
         $manager->flush();
-        $this->setReference(UserRole::class.'0', $userRole);
+        $this->setReference(UserRole::class.UserRole::ROLE_USER, $userRole);
 
 
         $moderatorRole = (new UserRole)
@@ -38,7 +38,7 @@ class UserRolesDataFixture extends AbstractFixture implements OrderedFixtureInte
 
         $manager->persist($moderatorRole);
         $manager->flush();
-        $this->setReference(UserRole::class.'1', $moderatorRole);
+        $this->setReference(UserRole::class.UserRole::ROLE_MODERATOR, $moderatorRole);
 
 
         $adminRole = (new UserRole)
@@ -48,7 +48,7 @@ class UserRolesDataFixture extends AbstractFixture implements OrderedFixtureInte
 
         $manager->persist($adminRole);
         $manager->flush();
-        $this->addReference(UserRole::class.'2', $adminRole);
+        $this->addReference(UserRole::class.UserRole::ROLE_ADMIN, $adminRole);
     }
 
     /**
