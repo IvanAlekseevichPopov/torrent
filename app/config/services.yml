@@ -23,3 +23,8 @@ services:
     app.manager.torrent_manager:
         class: AppBundle\Manager\TorrentManager
         arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+
+    # Менеджер пользователей
+    app.manager.user_manager:
+        class: AppBundle\Manager\UserManager
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]

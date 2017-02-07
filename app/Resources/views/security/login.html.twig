@@ -11,6 +11,7 @@
 
     <label for="password">Password:</label>
     <input type="password" id="password" name="_password" />
+    {#TODO translate#}
     {#<input type="hidden" name="_target_path" value="/account" />#}
 
     {#
@@ -21,4 +22,5 @@
 
     <button type="submit">login</button>
 </form>
+<a href="{{ path('password_restore') }}">Восстановить пароль</a>
 </body>

@@ -4,6 +4,7 @@ namespace AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Monolog\Logger;
 use Symfony\Component\DependencyInjection\{
     ContainerAwareInterface, ContainerAwareTrait, ContainerInterface
 };
@@ -177,6 +178,16 @@ abstract class AppManagerAbstract implements ContainerAwareInterface
     {
         $this->getEntityManager()->persist($entity);
         $this->getEntityManager()->flush($entity);
+    }
+
+    /**
+     * Геттер логгера
+     *
+     * @return Logger
+     */
+    protected function getLogger()
+    {
+        return $this->container->get('logger');
     }
 
     /**
