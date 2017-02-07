@@ -8,6 +8,8 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\UserRole;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserHelper
 {
@@ -48,6 +50,50 @@ class UserHelper
 
 
     /**
+     * Отправка сообщения пользователю для подвержедия регистрации
+     *
+     * @param Form $resetForm
+     * @param Request $request
+     * @return bool
+     */
+    public function handleResetPassword(Form $resetForm, Request $request): bool
+    {
+        //Получаем пользователя
+        $this->container->get('app.manager.user_manager')->findUserByEmail($resetForm->getData()['email']);
+        //Проверяем на непустоту
+        //Генерируем токен
+        //Записываем в пользователя
+        //Генерируем url
+        //Отправляем мыло
+        return true;
+    }
+//    /**
+//     * Отправка email с url для сброса пароля
+//     *
+//     * @param User $user
+//     */
+//    public function handleResetPassword(User $user)
+//    {
+//        $this->setConfirmToken($user);
+//
+//        $url = $this->generateConfirmUrl($user);
+//
+//        $message = \Swift_Message::newInstance()
+//            ->setSubject('Email confirmation')
+//            ->setTo($user->getUserEmail())
+//            ->setBody(
+//                $this->container->get('twig')->render(
+//                    'email/register_confirm.html.twig',
+//                    [
+//                        'confirmationUrl' => $url
+//                    ]
+//                )
+//            );
+//
+//        $this->container->get('mailer')->send($message);
+//    }
+
+    /**
      * Проверка url подтверждения регстрации
      *
      * @param string $userId
@@ -64,7 +110,7 @@ class UserHelper
             return false;
         }
 
-        if($user->getConfirmationToken() !== $token){
+        if ($user->getConfirmationToken() !== $token) {
             return false;
         }
 
@@ -75,6 +121,26 @@ class UserHelper
         $this->manager->flush();
 
         return true;
+    }
+
+    /**
+     * Задаем пользователю роль по названию
+     *
+     * @param User $user
+     * @param string $roleName
+     */
+    public function addRole(User $user, string $roleName)
+    {
+        //TODO переместить метод в менеджер пользователей!!!!!!!!!!!!!!!!!!
+        //И упростить получение роли. Слишком длинная цепочка
+        $userRole = $this->manager->getRepository(UserRole::class)->findBy(['name' => $roleName]);
+        if (null === $userRole) {
+            throw new \LogicException(
+                sprintf('Указана некорректная роль `%s`. См `users_roles`', $roleName)
+            );
+        }
+
+        $user->addRole($userRole);
     }
 
     /**
@@ -111,26 +177,5 @@ class UserHelper
                 'userId' => $user->getId(),
                 'token' => $user->getConfirmationToken()
             ]);
-    }
-
-
-    /**
-     * Задаем пользователю роль по названию
-     *
-     * @param User $user
-     * @param string $roleName
-     */
-    public function addRole(User $user, string $roleName)
-    {
-        //TODO переместить метод в менеджер пользователей!!!!!!!!!!!!!!!!!!
-        //И упростить получение роли. Слишком длинная цепочка
-        $userRole = $this->manager->getRepository(UserRole::class)->findBy(['name' => $roleName]);
-        if(null === $userRole){
-            throw new \LogicException(
-                sprintf('Указана некорректная роль `%s`. См `users_roles`', $roleName)
-            );
-        }
-
-        $user->addRole($userRole);
     }
 }
