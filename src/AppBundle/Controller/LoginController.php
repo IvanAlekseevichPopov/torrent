@@ -23,7 +23,7 @@ class LoginController extends Controller
 
         return $this->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
-            'error'         => $error,
+            'error' => $error,
         ));
     }
 
@@ -34,4 +34,38 @@ class LoginController extends Controller
     {
 
     }
+
+//    /**
+//     * @Route("/restore", name="password_restore")
+//     */
+//    public function passwordRestoreAction(Request $request)
+//    {
+//        $result = null;
+//        if ($request->isMethod('POST')) {
+//            //TODO возможно доп проверка email
+//            $user = $this->getUserByEmail($request->request->get('_email'));
+//            if (null === $user) {
+//                //TODO translate
+//                return $this->render('security/restore.html.twig', [
+//                    'result' => 'Пользователь с указанным email не существует',
+//                ]);
+//            }
+//
+//            $this->get('app.user_helper')->handleResetPassword($user);
+//            //TODO translate
+//            return $this->redirectToRoute('login');
+//        }
+//
+//        return $this->render('security/restore.html.twig');
+//    }
+//
+//    public function getUserByEmail(string $email)
+//    {
+//        //TODO убрать в user manager
+//        return
+//            $this
+//                ->getDoctrine()
+//                ->getRepository(User::class)
+//                ->findOneBy(['email' => $email]);
+//    }
 }

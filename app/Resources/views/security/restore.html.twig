@@ -1,0 +1,14 @@
+{# app/Resources/views/security/login.html.twig #}
+{# ... you will probably extend your base template, like base.html.twig #}
+
+<body>
+    <div class="content_message_box">
+        {% if mailSent is defined and true == mailSent %}
+            <h2>Письмо с инструкциями было отправлено на указанный email</h2>
+        {% else %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        {% endif %}
+    </div>
+</body>
