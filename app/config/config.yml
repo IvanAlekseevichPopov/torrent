@@ -71,3 +71,40 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+easy_admin:
+    entities:
+        Torrent:
+            class: AppBundle\Entity\Torrent
+        User:
+            class: AppBundle\Entity\User
+            list:
+                fields:
+                    - {property: 'id', sortable: true }
+                    - {property: 'statusid', sortable: true }
+                    - username
+                    - useremail
+                    - {property: 'roles', sortable: true }
+            show:
+                fields:
+                    - id
+            form:
+                fields:
+                    - { property: 'id', type_options: { 'disabled': true } }
+                    - statusid
+                    - username
+                    - useremail
+                    - { property: 'roles', type: 'entity', type_options: { class: 'AppBundle\Entity\UserRole', multiple: true, attr: { data-widget: 'select2' } }  }
+        UserRole:
+            class: AppBundle\Entity\UserRole
+#            list:
+#                fields:
+#                    - {property: 'id', sortable: true }
+    design:
+        brand_color: '#983b3b'
+        menu:
+            - { label: 'Public Homepage', url: '/' }
+            - { label: 'Monitor Systems', url: '/monitor.php' }
+            - { label: 'Users', entity: User}
+            - { label: 'Torrents', entity: Torrent}
+            - { label: 'Users Roles', entity: UserRole}

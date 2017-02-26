@@ -273,7 +273,6 @@ class User implements AdvancedUserInterface
      *
      * @JmsAnnotation\Exclude()
      *
-     * @Assert\NotBlank()
      * @Assert\Length(max = 4096)
      *
      * @var string
@@ -407,7 +406,7 @@ class User implements AdvancedUserInterface
      *
      * @return array
      */
-    public function getRolesThree()
+    public function getRolesTree()
     {
         $rolesThree = [];
 
@@ -529,11 +528,11 @@ class User implements AdvancedUserInterface
     /**
      * Сеттер ролей
      *
-     * @param ArrayCollection $roles
+     * @param $roles
      *
      * @return $this
      */
-    public function setRoles(ArrayCollection $roles)
+    public function setRoles($roles)
     {
         $this->roles = $roles;
 
@@ -635,7 +634,8 @@ class User implements AdvancedUserInterface
      */
     public function getRoles()
     {
-        return $this->getRolesThree();
+//        return $this->getRolesThree();
+        return $this->roles;
     }
 
     /**
@@ -775,7 +775,7 @@ class User implements AdvancedUserInterface
      */
     public function simpleRoles(): string
     {
-        return implode(', ', $this->getRolesThree());
+        return implode(', ', $this->getRolesTree());
     }
 
     /**

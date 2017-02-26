@@ -6,7 +6,7 @@ namespace AppBundle\Services;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\UserRole;
-use Doctrine\ORM\EntityManager;
+use AppBundle\Manager\UserManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 class UserHelper
 {
     protected $container;
-    protected $manager;
+    protected $userManager;
 
-    public function __construct(ContainerInterface $container, EntityManager $em)
+    public function __construct(ContainerInterface $container, UserManager $userManager)
     {
         $this->container = $container;
-        $this->manager = $em;
+        $this->userManager = $userManager;
     }
 
     /**
@@ -117,8 +117,8 @@ class UserHelper
         $user->markAsConfirmed();
         $this->addRole($user, UserRole::ROLE_USER);
 
-        $this->manager->persist($user);
-        $this->manager->flush();
+        $this->userManager->persist($user);
+        $this->userManager->flush();
 
         return true;
     }
@@ -133,7 +133,7 @@ class UserHelper
     {
         //TODO переместить метод в менеджер пользователей!!!!!!!!!!!!!!!!!!
         //И упростить получение роли. Слишком длинная цепочка
-        $userRole = $this->manager->getRepository(UserRole::class)->findBy(['name' => $roleName]);
+        $userRole = $this->userManager->findRoleByName($roleName);
         if (null === $userRole) {
             throw new \LogicException(
                 sprintf('Указана некорректная роль `%s`. См `users_roles`', $roleName)
@@ -153,8 +153,8 @@ class UserHelper
         //TODO подумать над этим
 //        try {
         $user->setConfirmationToken($this->container->get('app.unique_token_generator')->getUniqueToken());
-        $this->manager->persist($user);
-        $this->manager->flush();
+        $this->userManager->persist($user);
+        $this->userManager->flush();
 //        } catch (\Exception $e){
 //            $this->container->get('logger')->addError($e->getMessage());
 //            return false;

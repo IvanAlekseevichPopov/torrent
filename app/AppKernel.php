@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Fresh\DoctrineEnumBundle\FreshDoctrineEnumBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new AppBundle\AppBundle(),
         ];
 
