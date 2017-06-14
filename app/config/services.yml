@@ -10,7 +10,7 @@ services:
 
     app.user_helper:
         class: AppBundle\Services\UserHelper
-        arguments: ["@service_container", "@doctrine.orm.entity_manager"]
+        arguments: ["@service_container", "@app.manager.user_manager"]
 
     # Базовый класс менеджеров
     app.manager.manager_abstract:
