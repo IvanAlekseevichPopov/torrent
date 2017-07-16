@@ -6,10 +6,10 @@ use AppBundle\DBAL\Types\Enum\EnumTypeAbstract;
 
 class UserStatusEnumType extends EnumTypeAbstract
 {
-    const STATUS_NOT_CONFIRMED = 1;
-    const STATUS_CONFIRMED     = 2;
-    const STATUS_DELETED       = 3;
-    const STATUS_BANNED        = 4;
+    const STATUS_NOT_CONFIRMED = 'STATUS_NOT_CONFIRMED';
+    const STATUS_CONFIRMED     = 'STATUS_CONFIRMED';
+    const STATUS_DELETED       = 'STATUS_DELETED';
+    const STATUS_BANNED        = 'STATUS_BANNED';
 
     /** @var array */
     protected static $choices = [

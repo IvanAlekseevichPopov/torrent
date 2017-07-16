@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -9,7 +10,17 @@ use Symfony\Component\HttpFoundation\Request;
 class LoginController extends Controller
 {
     /**
-     * @Route("/login", name="login")
+     * Логин
+     * Не удалять
+     *
+     * @Method({"GET", "POST"})
+     * @Route(
+     *     "/login",
+     *     name="login",
+     *     options={
+     *          "expose":true
+     *     }
+     * )
      */
     public function loginAction()
     {
@@ -28,11 +39,20 @@ class LoginController extends Controller
     }
 
     /**
-     * @Route("/logout", name="logout")
+     * Логаут
+     * Не удалять
+     *
+     * @Method("GET")
+     * @Route(
+     *     "/logout",
+     *     name="logout",
+     *     options={
+     *          "expose":true
+     *     }
+     * )
      */
     public function logoutAction(Request $request)
     {
-
     }
 
 //    /**
@@ -57,15 +77,5 @@ class LoginController extends Controller
 //        }
 //
 //        return $this->render('security/restore.html.twig');
-//    }
-//
-//    public function getUserByEmail(string $email)
-//    {
-//        //TODO убрать в user manager
-//        return
-//            $this
-//                ->getDoctrine()
-//                ->getRepository(User::class)
-//                ->findOneBy(['email' => $email]);
 //    }
 }

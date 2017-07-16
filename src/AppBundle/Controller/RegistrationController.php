@@ -11,7 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RegistrationController extends Controller
 {
+
     /**
+     * Регистрация. Первый шаг - отправка проверки на email
+     *
      * @Route("/register", name="user_registration")
      */
     public function registerAction(Request $request)
@@ -47,7 +50,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * Подтверждение регстрации через email
+     * Регистрация. Второй шаг - подтверждение регстрации через email
      *
      * @Route("/register/confirm/{userId}/{token}", name="user_registration_confirmation")
      * @Method("GET")

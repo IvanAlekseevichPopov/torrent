@@ -5,14 +5,14 @@ declare(strict_types = 1);
 namespace AppBundle\Entity;
 
 use AppBundle\DBAL\Types\Enum\Users\UserStatusEnumType;
+use AppBundle\Traits\Doctrine as DoctrineHelpersTrait;
 use AppBundle\Traits\Doctrine\CreatedAtColumn;
 use AppBundle\Traits\Doctrine\UpdatedAtColumn;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JmsAnnotation;
-use AppBundle\Traits\Doctrine as DoctrineHelpersTrait;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -65,20 +65,21 @@ class User implements AdvancedUserInterface
     /**
      * Статус пользователя
      *
-     * @JMSAnnotation\Type("integer")
+     * @JMSAnnotation\Type("string")
      * @JMSAnnotation\Since("1.0")
      *
      * @ORM\Column(
-     *     name="status_id",
-     *     type="UserStatusEnumType",
-     *     options={
+     *     name     = "status",
+     *     type     = "UserStatusEnumType",
+     *     nullable = false,
+     *     options  = {
      *          "comment" = "Статус пользователя"
      *     }
      * )
      *
-     * @var integer
+     * @var string
      */
-    protected $statusId = UserStatusEnumType::STATUS_NOT_CONFIRMED;
+    protected $status = UserStatusEnumType::STATUS_NOT_CONFIRMED;
 
     /**
      * Имя пользователя
@@ -273,7 +274,6 @@ class User implements AdvancedUserInterface
      *
      * @JmsAnnotation\Exclude()
      *
-     * @Assert\NotBlank()
      * @Assert\Length(max = 4096)
      *
      * @var string
@@ -339,9 +339,9 @@ class User implements AdvancedUserInterface
      *
      * @return boolean
      */
-    public function isAccountNonLocked()
+    public function isAccountNonLocked(): bool
     {
-        return UserStatusEnumType::STATUS_BANNED !== $this->getStatusId();
+        return UserStatusEnumType::STATUS_BANNED !== $this->getStatus();
     }
 
     /**
@@ -359,9 +359,9 @@ class User implements AdvancedUserInterface
      *
      * @return boolean
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
-        return UserStatusEnumType::STATUS_DELETED !== $this->getStatusId();
+        return UserStatusEnumType::STATUS_DELETED !== $this->getStatus();
     }
 
     /**
@@ -369,9 +369,9 @@ class User implements AdvancedUserInterface
      *
      * @return boolean
      */
-    public function isConfirmed()
+    public function isConfirmed(): bool
     {
-        return UserStatusEnumType::STATUS_CONFIRMED === $this->getStatusId();
+        return UserStatusEnumType::STATUS_CONFIRMED === $this->getStatus();
     }
 
     /**
@@ -381,7 +381,7 @@ class User implements AdvancedUserInterface
      */
     public function markAsConfirmed()
     {
-        $this->setStatusId(UserStatusEnumType::STATUS_CONFIRMED);
+        $this->setStatus(UserStatusEnumType::STATUS_CONFIRMED);
         $this->setConfirmationToken('');
     }
 
@@ -394,8 +394,7 @@ class User implements AdvancedUserInterface
      */
     public function addRole(UserRole $role)
     {
-        if(false === $this->roles->contains($role))
-        {
+        if (false === $this->roles->contains($role)) {
             $this->roles->add($role);
         }
 
@@ -407,37 +406,16 @@ class User implements AdvancedUserInterface
      *
      * @return array
      */
-    public function getRolesThree()
+    public function getRolesTree()
     {
+        dump('getRolesTree');
         $rolesThree = [];
 
-        foreach($this->roles as $role)
-        {
+        foreach ($this->roles as $role) {
             $this->extractRoles($role, $rolesThree);
         }
 
         return $rolesThree;
-    }
-
-
-    /**
-     * Извлекает роли
-     *
-     * @param UserRole $role
-     * @param array $roles
-     *
-     * @return $this
-     */
-    protected function extractRoles(UserRole $role, array &$roles)
-    {
-        $roles[$role->getName()] = $role->getName();
-
-        if($role->hasParent())
-        {
-            return $this->extractRoles($role->getParent(), $roles);
-        }
-
-        return $this;
     }
 
     /**
@@ -505,7 +483,7 @@ class User implements AdvancedUserInterface
      */
     public function setConfirmationToken($confirmationToken)
     {
-        $this->confirmationToken = '' !== (string) $confirmationToken
+        $this->confirmationToken = '' !== (string)$confirmationToken
             ? $confirmationToken
             : null;
 
@@ -529,11 +507,11 @@ class User implements AdvancedUserInterface
     /**
      * Сеттер ролей
      *
-     * @param ArrayCollection $roles
+     * @param $roles
      *
      * @return $this
      */
-    public function setRoles(ArrayCollection $roles)
+    public function setRoles($roles)
     {
         $this->roles = $roles;
 
@@ -605,7 +583,7 @@ class User implements AdvancedUserInterface
      */
     public function getResetPasswordToken(): string
     {
-        return (string) $this->resetPasswordToken;
+        return (string)$this->resetPasswordToken;
     }
 
     /**
@@ -625,7 +603,7 @@ class User implements AdvancedUserInterface
      */
     public function getPlainPassword(): string
     {
-        return (string) $this->plainPassword;
+        return (string)$this->plainPassword;
     }
 
     /**
@@ -635,7 +613,10 @@ class User implements AdvancedUserInterface
      */
     public function getRoles()
     {
-        return $this->getRolesThree();
+
+        return $this->getRolesTree();
+
+//        return $this->roles;
     }
 
     /**
@@ -712,37 +693,13 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * Get statusId
-     *
-     * @return integer
-     */
-    public function getStatusId()
-    {
-        return $this->statusId;
-    }
-
-    /**
-     * Set statusId
-     *
-     * @param integer $statusId
-     *
-     * @return User
-     */
-    public function setStatusId($statusId)
-    {
-        $this->statusId = $statusId;
-
-        return $this;
-    }
-
-    /**
      * Генерация соли
      *
      * @return string
      */
     public function generateRandomSalt(): string
     {
-        return base_convert(sha1(uniqid((string) mt_rand(), true)), 16, 36);
+        return base_convert(sha1(uniqid((string)mt_rand(), true)), 16, 36);
     }
 
     /**
@@ -752,8 +709,7 @@ class User implements AdvancedUserInterface
      */
     public function canRestorePassword(): bool
     {
-        if(null !== $this->getResetPasswordRequestedAt() && '' !== $this->getResetPasswordToken())
-        {
+        if (null !== $this->getResetPasswordRequestedAt() && '' !== $this->getResetPasswordToken()) {
             $expiredAt = clone $this->getResetPasswordRequestedAt();
             $expiredAt->modify(self::RESET_PASSWORD_LIFETIME_MODIFIER);
 
@@ -775,7 +731,7 @@ class User implements AdvancedUserInterface
      */
     public function simpleRoles(): string
     {
-        return implode(', ', $this->getRolesThree());
+        return implode(', ', $this->getRolesTree());
     }
 
     /**
@@ -808,5 +764,40 @@ class User implements AdvancedUserInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus(string $status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * Извлекает роли
+     *
+     * @param UserRole $role
+     * @param array $roles
+     *
+     * @return $this
+     */
+    protected function extractRoles(UserRole $role, array &$roles)
+    {
+        $roles[$role->getName()] = $role->getName();
+
+        if ($role->hasParent()) {
+            return $this->extractRoles($role->getParent(), $roles);
+        }
+
+        return $this;
     }
 }
