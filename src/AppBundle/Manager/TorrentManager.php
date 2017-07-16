@@ -6,40 +6,23 @@ namespace AppBundle\Manager;
 
 use AppBundle\Entity\Torrent;
 use AppBundle\Repository\TorrentRepository;
-use Monolog\Logger;
 
 class TorrentManager extends AppManagerAbstract
 {
-//    /**
-//     * @param EncoderFactoryInterface $passwordEncoder
-//     * @param EntityManager           $entityManager
-//     * @param \Redis                  $redisStorage
-//     * @param ContainerInterface      $container
-//     */
-//    public function __construct(
-//        EncoderFactoryInterface $passwordEncoder, EntityManager $entityManager, \Redis $redisStorage,
-//        ContainerInterface $container
-//    )
-//    {
-//        $this->passwordEncoder = $passwordEncoder;
-//
-//        parent::__construct($entityManager, $redisStorage, $container);
-//    }
+    const LATEST_TORRENT_LIST_LIMIT = 10;
 
-    public function getTorrentsList($filters)
+    /**
+     * Возвращает список последних добавленных торрентов
+     *
+     * @return array|null
+     */
+    public function getLatestTorrentsList(): ?array
     {
-        //TODO поиск здесь или отдельно - обмозговать
-        dump($filters);
-
-        //TODO получаем offset из фильтра limit - захардкодить в константу
-        $limit = 10;
-        $offset = 0;
         return
             $this->getRepository()->findBy(
                 [],
                 ['createdAt' => 'DESC'],
-                $limit,
-                $offset
+                self::LATEST_TORRENT_LIST_LIMIT
             );
     }
 
@@ -50,13 +33,4 @@ class TorrentManager extends AppManagerAbstract
     {
         return $this->getEntityManager()->getRepository(Torrent::class);
     }
-
-//    /**
-//     * Еще пригодится
-//     * @return Logger
-//     */
-//    private function getLogger()
-//    {
-//        return $this->get('logger');
-//    }
 }

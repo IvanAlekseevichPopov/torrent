@@ -1,0 +1,16 @@
+{% extends 'SonataAdminBundle::standard_layout.html.twig' %}
+
+{% block meta_tags %}
+    {{ parent() }}
+    <meta name="referrer" content="never">
+{% endblock %}
+
+{% block side_bar_after_nav %}
+    <ul class="sidebar-menu">
+        <li class="first last">
+            <a href="/admin"><i class="fa fa-wheelchair" aria-hidden="true"></i>Старая админка тут</a>
+        </li>
+    </ul>
+    {#<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+    {#<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData', adminRouter:'true' }) }}"></script>#}
+{% endblock %}

@@ -25,7 +25,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Список торрентов на главной
+     * Список последних торрентов на главной
      *
      * @Route("/", name="torrent_list")
      * @Method("GET")
@@ -34,21 +34,11 @@ class DefaultController extends Controller
      */
     public function indexMainAction(Request $request)
     {
-        $filters = $this->getFilters($request);
-
-        $torrents = $this->get('app.manager.torrent_manager')->getTorrentsList($filters);
+        $torrents = $this->get('app.manager.torrent_manager')->getLatestTorrentsList();
         dump($torrents);
 
         return $this->render('torrent/list.twig', array(
             'torrents' => $torrents,
         ));
-    }
-
-    protected function getFilters($request)
-    {
-        //TODO возвращаем фильтр в виде объекта спец класса
-        //TODO убрать getFilters в сервисы
-        dump($request);
-        return [];
     }
 }

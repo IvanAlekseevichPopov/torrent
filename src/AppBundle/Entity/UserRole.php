@@ -200,11 +200,6 @@ class UserRole implements RoleInterface
         return null !== $this->getParent();
     }
 
-    public function __toString()
-    {
-        return $this->getDescription();
-    }
-
     /**
      * @return mixed
      */
@@ -219,5 +214,10 @@ class UserRole implements RoleInterface
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->getName();
     }
 }
