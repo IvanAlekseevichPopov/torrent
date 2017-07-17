@@ -67,6 +67,7 @@ class UserHelper
         //Отправляем мыло
         return true;
     }
+
 //    /**
 //     * Отправка email с url для сброса пароля
 //     *

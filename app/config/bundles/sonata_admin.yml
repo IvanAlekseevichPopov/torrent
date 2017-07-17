@@ -4,7 +4,7 @@ services:
         class: AppBundle\Controller\SonataAdmin\UserAdmin
         arguments: [~, AppBundle\Entity\User, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: 'Пользователи' }
+            - { name: sonata.admin, manager_type: orm, label: 'Users' }
 
 sonata_block:
     default_contexts: [cms]
@@ -13,14 +13,15 @@ sonata_block:
         sonata.admin.block.admin_list:
             contexts: [admin]
 sonata_admin:
-    title: 'Test Title'
+    title: 'Admin Panel'
+    title_logo: images/logo_square.png
     templates:
         layout: '@App/SonataAdmin/standard_layout.html.twig'
     dashboard:
         groups:
             sonata.admin.group.users:
                 keep_open:            true
-                label:                'Пользователи'
+                label:                'Users'
                 icon:                 '<i class="fa fa-user"></i>'
                 items:
                     - admin.user
