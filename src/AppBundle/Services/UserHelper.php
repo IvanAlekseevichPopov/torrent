@@ -10,6 +10,8 @@ use AppBundle\Manager\UserManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserHelper
 {
@@ -99,13 +101,13 @@ class UserHelper
      *
      * @param string $userId
      * @param string $token
+     * @param TokenStorage $tokenStorage
      * @return bool
      */
-    public function checkRegisterConfirmation(string $userId, string $token): bool
+    public function checkRegisterConfirmation(string $userId, string $token, TokenStorage $tokenStorage): bool
     {
-        //TODO получать репозиторий проще, чем сейчас
-        $userRepo = $this->userManager->getRepository();
-        $user = $userRepo->find($userId);
+        /** @var User $user */
+        $user = $this->userManager->getRepository()->find($userId);
 
         if (!($user instanceof User)) {
             return false;
@@ -121,6 +123,13 @@ class UserHelper
         $this->userManager->persist($user);
         $this->userManager->flush();
 
+        //Auto auth after success register confirmation
+        $token = new UsernamePasswordToken(
+            $user, null, 'app.security.user_login_check', $user->getRolesTree()
+        );
+
+        $tokenStorage->setToken($token);
+
         return true;
     }
 
@@ -131,7 +140,7 @@ class UserHelper
      */
     protected function setConfirmToken(User $user)
     {
-        //TODO подумать над этим
+        //TODO подумать над этим - лучше в redis?
 //        try {
         $user->setConfirmationToken($this->container->get('app.unique_token_generator')->getUniqueToken());
         $this->userManager->persist($user);

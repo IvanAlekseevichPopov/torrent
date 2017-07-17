@@ -34,6 +34,8 @@ class DefaultController extends Controller
      */
     public function indexMainAction(Request $request)
     {
+        dump($this->get('snc_redis.default_client'));
+
         $torrents = $this->get('app.manager.torrent_manager')->getLatestTorrentsList();
         dump($torrents);
 
