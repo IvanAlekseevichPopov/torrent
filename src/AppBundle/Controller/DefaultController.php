@@ -18,7 +18,7 @@ class DefaultController extends Controller
         $routesCollection = $this->get('router')->getRouteCollection();
 
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
+        return $this->render('@App/default/index.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'routes' => $routesCollection
         ]);
@@ -34,12 +34,10 @@ class DefaultController extends Controller
      */
     public function indexMainAction(Request $request)
     {
-        dump($this->get('snc_redis.default_client'));
-
         $torrents = $this->get('app.manager.torrent_manager')->getLatestTorrentsList();
         dump($torrents);
 
-        return $this->render('torrent/list.twig', array(
+        return $this->render('@App/torrent/list.twig', array(
             'torrents' => $torrents,
         ));
     }
