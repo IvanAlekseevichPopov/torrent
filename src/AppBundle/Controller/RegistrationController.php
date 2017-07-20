@@ -61,7 +61,7 @@ class RegistrationController extends Controller
      */
     public function registerConfirmationAction($userId, $token)
     {
-        $result = $this->get('app.user_helper')->checkRegisterConfirmation($userId, $token);
+        $result = $this->get('app.user_helper')->checkRegisterConfirmation($userId, $token, $this->get('security.token_storage'));
 
         if ($result) {
             //TODO multilang
@@ -73,9 +73,8 @@ class RegistrationController extends Controller
 
 //        TODO Если пользователь не подтвердил email за неделю - удаляем его из базы
 
-        return $this->render(
-            'registration/register_email_confirm.html.twig',
-            ['message' => $message]
-        );
+        return $this->render('registration/register_email_confirm.html.twig', [
+            'message' => $message
+        ]);
     }
 }
