@@ -1,0 +1,30 @@
+version: "3.6"
+
+services:
+    db:
+        image: postgres:10
+        volumes:
+            - db:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB
+            - POSTGRES_USER
+            - POSTGRES_PASSWORD
+        ports:
+            - "5432:5432"
+    nginx:
+        image: nginx:alpine
+        volumes:
+            - .:/var/www/html
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "80:80"
+    php:
+        build: docker/php
+        volumes:
+            - .:/var/www/html
+            - ./docker/php/symfony.ini:/usr/local/etc/php/conf.d/symfony.ini
+            - trash:/var/www/
+        entrypoint: ./docker/php/docker-entrypoint.sh
+volumes:
+    trash:
+    db:
